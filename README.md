@@ -2,14 +2,14 @@
 
 Please *DO NOT* use now. It is experimental state.
 
-## You Can Do this plugins with..
+## You Can Do this plugin with..
 
 - Start Foreground Service (with callback)
 - Stop Foreground Service (with callback)
 - Using infinite interval on your configurations.
 
 
-## You Can Not Do this plugins with... 
+## You Can Not Do this plugin with... 
 
 - [ ] Change Notification Level
 - [ ] Change Notification title and contents
