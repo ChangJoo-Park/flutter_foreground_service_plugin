@@ -20,7 +20,7 @@ Please *DO NOT* use now. It is experimental state.
 1. Add dependency to your pubspec.yaml
 
 
-```
+```yaml
 dependencies:
     ...
     
