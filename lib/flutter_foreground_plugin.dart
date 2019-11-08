@@ -1,26 +1,21 @@
 import 'dart:async';
 import 'dart:ui';
 
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class FlutterForegroundPlugin {
   static const MethodChannel _mainChannel =
       const MethodChannel('com.changjoopark.flutter_foreground_plugin/main');
 
+  static const MethodChannel _callbackChannel = const MethodChannel(
+      'com.changjoopark.flutter_foreground_plugin/callback');
+
+  static int serviceCallbackHandle = -1;
+
   static Future<void> startForegroundService(
-      [Function serviceMethod, bool holdWakeLock = false]) async {
-    final int setupCallbackHandle = PluginUtilities.getCallbackHandle(
-            _setupForegroundServiceCallbackChannel)
-        .toRawHandle();
-
-    await _mainChannel.invokeMethod(
-        "startForegroundService", <dynamic>[setupCallbackHandle, holdWakeLock]);
-
-    if (serviceMethod != null) {
-      setServiceMethod(serviceMethod);
-    }
-    print("startForegroundService");
+      [bool holdWakeLock = false]) async {
+    await _mainChannel.invokeMethod("startForegroundService",
+        <String, dynamic>{'holdWakeLock': holdWakeLock});
   }
 
   static Future<void> stopForegroundService() async {
@@ -31,23 +26,34 @@ class FlutterForegroundPlugin {
     final serviceMethodHandle =
         PluginUtilities.getCallbackHandle(serviceMethod).toRawHandle();
 
+    _callbackChannel.setMethodCallHandler(_onForegroundServiceCallback);
+
     await _mainChannel
-        .invokeMethod("setServiceMethodHandle", <dynamic>[serviceMethodHandle]);
+        .invokeMethod("setServiceMethodHandle", <String, dynamic>{'serviceMethodHandle': serviceMethodHandle});
   }
-}
 
-//the android side will use this function as the entry point
-//for the background isolate that will be used to execute dart handles
-void _setupForegroundServiceCallbackChannel() {
-  const MethodChannel _callbackChannel = MethodChannel(
-      "com.changjoopark.flutter_foreground_plugin/main", JSONMethodCodec());
+  static Future<void> setServiceMethodInterval({int seconds = 5}) async {
+    await _mainChannel
+        .invokeMethod("setServiceMethodInterval", <String, dynamic>{
+      'seconds': seconds,
+    });
+  }
 
-  WidgetsFlutterBinding.ensureInitialized();
+  static Future<void> _onForegroundServiceCallback(MethodCall call) async {
+    switch(call.method) {
+      case "onStarted":
+        break;
+      case "onStopped":
+        break;
+      case "onServiceMethodCallback":
+        final CallbackHandle handle = CallbackHandle.fromRawHandle(call.arguments);
+        if (handle != null) {
+          PluginUtilities.getCallbackFromHandle(handle)();
+        }
+        break;
+      default:
+        break;
+    }
 
-  _callbackChannel.setMethodCallHandler((MethodCall call) async {
-    final dynamic args = call.arguments;
-    final CallbackHandle handle = CallbackHandle.fromRawHandle(args[0]);
-
-    PluginUtilities.getCallbackFromHandle(handle)();
-  });
+  }
 }

@@ -15,13 +15,8 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
+    startFGS();
     super.initState();
-    startForegroundService();
-  }
-
-  Future<void> startForegroundService() async {
-    await FlutterForegroundPlugin.startForegroundService(
-        globalForegroundSerivce);
   }
 
   @override
@@ -37,16 +32,17 @@ class _MyAppState extends State<MyApp> {
               Text('Running on: $_platformVersion\n'),
               RaisedButton(
                 child: Text("START"),
-                onPressed: () async {
-                  await FlutterForegroundPlugin.startForegroundService();
+                onPressed: () {
+                  startFGS();
                 },
               ),
+
               RaisedButton(
                 child: Text("STOP"),
                 onPressed: () async {
                   await FlutterForegroundPlugin.stopForegroundService();
                 },
-              )
+              ),
             ],
           ),
         ),
@@ -55,6 +51,12 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
-void globalForegroundSerivce() {
+void startFGS() async {
+  await FlutterForegroundPlugin.setServiceMethodInterval(seconds: 5);
+  await FlutterForegroundPlugin.setServiceMethod(globalForegroundService);
+  await FlutterForegroundPlugin.startForegroundService(false);
+}
+
+void globalForegroundService() {
   debugPrint("current datetime is ${DateTime.now()}");
 }

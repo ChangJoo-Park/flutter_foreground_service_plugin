@@ -4,7 +4,6 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -28,9 +27,6 @@ public class FlutterForegroundService extends Service {
 
         switch (action) {
             case FlutterForegroundPlugin.START_FOREGROUND_ACTION:
-                System.out.println(intent.toString());
-                System.out.println(flags);
-                System.out.println(startId);
                 PackageManager pm = getApplicationContext().getPackageManager();
                 Intent notificationIntent = pm.getLaunchIntentForPackage(getApplicationContext().getPackageName());
                 PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
@@ -62,7 +58,7 @@ public class FlutterForegroundService extends Service {
 
                 startForeground(ONGOING_NOTIFICATION_ID, builder.build());
                 break;
-            case FlutterForegroundPlugin.STOP_FOREGROUND_ACTION :
+            case FlutterForegroundPlugin.STOP_FOREGROUND_ACTION:
                 System.out.println("STOP FOREGROUND ACTION");
                 stopForeground(Service.STOP_FOREGROUND_DETACH);
                 break;
@@ -70,33 +66,6 @@ public class FlutterForegroundService extends Service {
                 break;
         }
 
-//        if (ForegroundServicePlugin.STARTFOREGROUND_ACTION.equals(intent.getAction())) {
-//            PackageManager pm = getApplicationContext().getPackageManager();
-//            Intent notificationIntent = pm.getLaunchIntentForPackage(getApplicationContext().getPackageName());
-//            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
-//                    notificationIntent, 0);
-//
-//            Bundle bundle = intent.getExtras();
-//
-//            Notification notification =
-//                    new NotificationCompat.Builder(this)
-//                            .setOngoing(true)
-//                            .setPriority(NotificationCompat.PRIORITY_MAX)
-//                            .setContentTitle(bundle.getString("title"))
-//                            .setContentText(bundle.getString("text"))
-//                            .setSubText(bundle.getString("subText"))
-//                            .setTicker(bundle.getString("ticker"))
-//                            .setSmallIcon(android.R.drawable.ic_dialog_info)
-//                            .setContentIntent(pendingIntent)
-//                            .build();
-//
-//            startForeground(ONGOING_NOTIFICATION_ID, notification);
-//
-//        } else if (ForegroundServicePlugin.STOPFOREGROUND_ACTION.equals(intent.getAction())) {
-//            stopForeground(true);
-//            stopSelf();
-//        }
-//        return START_STICKY;
         return START_STICKY;
     }
 
@@ -105,5 +74,4 @@ public class FlutterForegroundService extends Service {
     public IBinder onBind(Intent intent) {
         return null;
     }
-
 }
