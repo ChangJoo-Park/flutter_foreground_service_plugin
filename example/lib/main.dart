@@ -36,7 +36,6 @@ class _MyAppState extends State<MyApp> {
                   startFGS();
                 },
               ),
-
               RaisedButton(
                 child: Text("STOP"),
                 onPressed: () async {
@@ -54,7 +53,14 @@ class _MyAppState extends State<MyApp> {
 void startFGS() async {
   await FlutterForegroundPlugin.setServiceMethodInterval(seconds: 5);
   await FlutterForegroundPlugin.setServiceMethod(globalForegroundService);
-  await FlutterForegroundPlugin.startForegroundService(false);
+  await FlutterForegroundPlugin.startForegroundService(
+      holdWakeLock: false,
+      onStarted: () {
+        print("Foreground on Started");
+      },
+      onStopped: () {
+        print("Foreground on Stopped");
+      });
 }
 
 void globalForegroundService() {

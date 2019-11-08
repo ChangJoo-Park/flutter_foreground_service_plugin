@@ -93,6 +93,8 @@ public class FlutterForegroundPlugin implements MethodCallHandler {
         activity.startService(intent);
         serviceStarted = true;
         startServiceLoop();
+
+        callbackChannel.invokeMethod("onStarted", null);
     }
 
     /**
@@ -111,6 +113,8 @@ public class FlutterForegroundPlugin implements MethodCallHandler {
         Intent intent = new Intent(activity, FlutterForegroundService.class);
         intent.setAction(STOP_FOREGROUND_ACTION);
         activity.stopService(intent);
+
+        callbackChannel.invokeMethod("onStopped", null);
     }
 
     /**

@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c539f5ab-057a-4d26-896e-f10ef225f60f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/src/main/java/changjoopark/com/flutter_foreground_plugin/FlutterForegroundPlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/java/changjoopark/com/flutter_foreground_plugin/FlutterForegroundPlugin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/src/main/java/changjoopark/com/flutter_foreground_plugin/FlutterForegroundService.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/java/changjoopark/com/flutter_foreground_plugin/FlutterForegroundService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/lib/main.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/flutter_foreground_plugin.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/flutter_foreground_plugin.dart" afterDir="false" />
     </list>
@@ -30,8 +27,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/lib/flutter_foreground_plugin.dart">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="444">
-              <caret line="47" column="35" selection-start-line="47" selection-start-column="12" selection-end-line="47" selection-end-column="35" />
+            <state relative-caret-position="311">
+              <caret line="61" column="35" selection-start-line="61" selection-start-column="35" selection-end-line="61" selection-end-column="35" />
               <folding>
                 <element signature="e#0#20#0" expanded="true" />
               </folding>
@@ -42,8 +39,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/example/lib/main.dart">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="406">
-              <caret line="55" column="43" selection-start-line="55" selection-start-column="43" selection-end-line="55" selection-end-column="43" />
+            <state relative-caret-position="425">
+              <caret line="53" column="29" selection-start-line="53" selection-start-column="29" selection-end-line="53" selection-end-column="29" />
               <folding>
                 <element signature="e#0#39#0" expanded="true" />
               </folding>
@@ -75,6 +72,8 @@
       <find>_onForegroundServiceCallback</find>
       <find>setServiceMethod</find>
       <find>startServiceLoop</find>
+      <find>serviceCallbackHandle</find>
+      <find>toRaw</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -180,12 +179,12 @@
       <window_info id="Structure" order="2" side_tool="true" />
       <window_info id="Image Layers" order="3" />
       <window_info id="Designer" order="4" />
-      <window_info active="true" id="Build Variants" order="5" sideWeight="0.5014749" side_tool="true" visible="true" weight="0.19595315" />
+      <window_info id="Build Variants" order="5" sideWeight="0.5014749" side_tool="true" visible="true" weight="0.19595315" />
       <window_info id="Resources Explorer" order="6" />
       <window_info id="Capture Tool" order="7" />
       <window_info id="Favorites" order="8" side_tool="true" />
       <window_info anchor="bottom" id="Dart Analysis" order="0" weight="0.32953367" />
-      <window_info anchor="bottom" id="Run" order="1" visible="true" weight="0.37511522" />
+      <window_info active="true" anchor="bottom" id="Run" order="1" visible="true" weight="0.37511522" />
       <window_info anchor="bottom" id="TODO" order="2" />
       <window_info anchor="bottom" id="Android Profiler" order="3" show_stripe_button="false" />
       <window_info anchor="bottom" id="Logcat" order="4" />
@@ -272,8 +271,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/example/lib/main.dart">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="406">
-          <caret line="55" column="43" selection-start-line="55" selection-start-column="43" selection-end-line="55" selection-end-column="43" />
+        <state relative-caret-position="425">
+          <caret line="53" column="29" selection-start-line="53" selection-start-column="29" selection-end-line="53" selection-end-column="29" />
           <folding>
             <element signature="e#0#39#0" expanded="true" />
           </folding>
@@ -282,8 +281,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/flutter_foreground_plugin.dart">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="444">
-          <caret line="47" column="35" selection-start-line="47" selection-start-column="12" selection-end-line="47" selection-end-column="35" />
+        <state relative-caret-position="311">
+          <caret line="61" column="35" selection-start-line="61" selection-start-column="35" selection-end-line="61" selection-end-column="35" />
           <folding>
             <element signature="e#0#20#0" expanded="true" />
           </folding>
