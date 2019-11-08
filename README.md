@@ -1,14 +1,45 @@
-# flutter_foreground_plugin
+# flutter_foreground_service_plugin
 
-A foreground service plugin for Flutter
+Please *DO NOT* use now. It is experimental state.
 
-## Getting Started
+## You Can Do this plugins with..
 
-This project is a starting point for a Flutter
-[plug-in package](https://flutter.dev/developing-packages/),
-a specialized package that includes platform-specific implementation code for
-Android and/or iOS.
+- Start Foreground Service (with callback)
+- Stop Foreground Service (with callback)
+- Using infinite interval on your configurations.
 
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.dev/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+
+## You Can Not Do this plugins with... 
+
+- [ ] Change Notification Level
+- [ ] Change Notification title and contents
+
+
+## If you use this plugin.
+
+1. Add dependency to your pubspec.yaml
+
+
+```
+dependencies:
+    ...
+    
+      flutter_foreground_plugin:
+        git:
+          url: https://github.com/ChangJoo-Park/flutter_foreground_service_plugin
+
+```
+
+
+2. Add permission for ForegroundService to AndroidManifest.xml
+
+```xml
+<uses-permission android:name="android.permission.FOREGROUND_SERVICE"/> 
+```
+
+
+3. Add service for ForegroundService to AndroidManifest.xml below `</activity>`
+
+```xml
+<service android:name="changjoopark.com.flutter_foreground_plugin.FlutterForegroundService"/>
+``` 
