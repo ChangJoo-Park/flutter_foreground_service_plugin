@@ -1,5 +1,5 @@
 name: flutter_foreground_plugin
-description: A foreground service plugin for Flutter
+description: A foreground service plugin for Flutter. Support only Android (support Oreo). iOS not support yet.
 version: 0.2.0
 author: ChangJoo Park <pcjpcj2@gmail.com>
 homepage: https://github.com/ChangJoo-Park/flutter_foreground_service_plugin
