@@ -14,6 +14,8 @@ class FlutterForegroundPlugin {
   static Function onStartedMethod;
   static Function onStoppedMethod;
 
+  /// [startForegroundService]
+  ///
   static Future<void> startForegroundService({
     bool holdWakeLock = false,
     Function onStarted,
@@ -22,6 +24,7 @@ class FlutterForegroundPlugin {
     @required String title,
     String content = "",
     String subtext = "",
+    bool chronometer = false,
   }) async {
     if (onStarted != null) {
       onStartedMethod = onStarted;
@@ -36,7 +39,8 @@ class FlutterForegroundPlugin {
       'icon': iconName,
       'title': title,
       'content': content,
-      'subtext': subtext
+      'subtext': subtext,
+      'chronometer': chronometer,
     });
   }
 

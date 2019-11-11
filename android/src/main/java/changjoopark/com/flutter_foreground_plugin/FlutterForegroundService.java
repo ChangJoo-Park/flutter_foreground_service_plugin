@@ -49,6 +49,7 @@ public class FlutterForegroundService extends Service {
                         .setContentText(bundle.getString("content"))
                         .setCategory(NotificationCompat.CATEGORY_SERVICE)
                         .setContentIntent(pendingIntent)
+                        .setUsesChronometer(bundle.getBoolean("chronometer"))
                         .setOngoing(true);
 
                 if (bundle.getString("subtext") != null && bundle.getString("subtext").isEmpty()) {
