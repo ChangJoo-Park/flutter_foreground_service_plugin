@@ -1,7 +1,7 @@
 name: flutter_foreground_plugin
 description: A foreground service plugin for Flutter
 version: 0.2.0
-author: ChangJoo Park
+author: ChangJoo Park <pcjpcj2@gmail.com>
 homepage: https://github.com/ChangJoo-Park/flutter_foreground_service_plugin
 
 environment:
