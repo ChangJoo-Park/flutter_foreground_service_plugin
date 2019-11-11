@@ -1,3 +1,7 @@
+## 0.2.2
+
+* Remove useless logs
+
 ## 0.2.0
 
 * Can change Notification title and contents when startup
