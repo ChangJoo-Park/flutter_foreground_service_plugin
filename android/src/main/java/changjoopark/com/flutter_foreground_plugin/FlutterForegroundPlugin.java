@@ -96,7 +96,7 @@ public class FlutterForegroundPlugin implements MethodCallHandler {
         intent.putExtra("icon", icon);
         intent.putExtra("title", title);
         intent.putExtra("content", content);
-        intent.putExtra("content", subtext);
+        intent.putExtra("subtext", subtext);
         intent.putExtra("chronometer", chronometer);
 
         activity.startService(intent);
