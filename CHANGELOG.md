@@ -1,3 +1,8 @@
+## 0.3.0
+
+* Support chronometer 
+* Fix typo for subtext
+
 ## 0.2.2
 
 * Remove useless logs
