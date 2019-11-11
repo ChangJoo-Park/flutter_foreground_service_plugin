@@ -29,7 +29,6 @@ class _MyAppState extends State<MyApp> {
         body: Center(
           child: Column(
             children: <Widget>[
-              Text('Running on: $_platformVersion\n'),
               RaisedButton(
                 child: Text("START"),
                 onPressed: () {
