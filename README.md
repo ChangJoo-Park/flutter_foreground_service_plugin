@@ -1,7 +1,5 @@
 # flutter_foreground_service_plugin
 
-Please *DO NOT* use now. It is experimental state.
-
 ## You Can Do this plugin with..
 
 - Start Foreground Service (with callback)
@@ -9,7 +7,7 @@ Please *DO NOT* use now. It is experimental state.
 - Using infinite interval on your configurations
 - Change Notification title and contents
 
-## You Can Not Do this plugin with... 
+## You Can Not Do this plugin with...
 
 - [ ] Change Notification Level
 
@@ -23,7 +21,7 @@ Please *DO NOT* use now. It is experimental state.
 ```yaml
 dependencies:
     ...
-    
+
       flutter_foreground_plugin:
         git:
           url: https://github.com/ChangJoo-Park/flutter_foreground_service_plugin
@@ -34,7 +32,7 @@ dependencies:
 2. Add permission for ForegroundService to AndroidManifest.xml
 
 ```xml
-<uses-permission android:name="android.permission.FOREGROUND_SERVICE"/> 
+<uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
 ```
 
 
@@ -42,7 +40,7 @@ dependencies:
 
 ```xml
 <service android:name="changjoopark.com.flutter_foreground_plugin.FlutterForegroundService"/>
-``` 
+```
 
 
 4. Add icon image for notification.
@@ -55,9 +53,9 @@ path: `android/app/src/main/res/drawable-*`
 
 ```dart
 void main() {
-  runApp(MyApp()); 
+  runApp(MyApp());
   startForegroundService();
-  
+
   // if you need to stop foreground service,
   // await FlutterForegroundPlugin.stopForegroundService();
 }
