@@ -53,13 +53,17 @@ void startFGS() async {
   await FlutterForegroundPlugin.setServiceMethodInterval(seconds: 5);
   await FlutterForegroundPlugin.setServiceMethod(globalForegroundService);
   await FlutterForegroundPlugin.startForegroundService(
-      holdWakeLock: false,
-      onStarted: () {
-        print("Foreground on Started");
-      },
-      onStopped: () {
-        print("Foreground on Stopped");
-      });
+    holdWakeLock: false,
+    onStarted: () {
+      print("Foreground on Started");
+    },
+    onStopped: () {
+      print("Foreground on Stopped");
+    },
+    title: "Flutter Foreground Service",
+    content: "This is Content",
+    iconName: "ic_stat_hot_tub",
+  );
 }
 
 void globalForegroundService() {
