@@ -36,8 +36,8 @@ public class FlutterForegroundService extends Service {
 
                 NotificationCompat.Builder builder;
 
-                if (Build.VERSION.SDK_INT >= 26) {
-                    String CHANNEL_ID = "snwodeer_service_channel";
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    String CHANNEL_ID = "flutter_foreground_service_channel";
                     NotificationChannel channel = new NotificationChannel(CHANNEL_ID,
                             "알람채널",
                             NotificationManager.IMPORTANCE_DEFAULT);
