@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:ui';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 
 class FlutterForegroundPlugin {
@@ -17,6 +18,10 @@ class FlutterForegroundPlugin {
     bool holdWakeLock = false,
     Function onStarted,
     Function onStopped,
+    @required String iconName,
+    @required String title,
+    String content = "",
+    String subtext = "",
   }) async {
     if (onStarted != null) {
       onStartedMethod = onStarted;
@@ -26,8 +31,13 @@ class FlutterForegroundPlugin {
       onStoppedMethod = onStopped;
     }
 
-    await _mainChannel.invokeMethod("startForegroundService",
-        <String, dynamic>{'holdWakeLock': holdWakeLock});
+    await _mainChannel.invokeMethod("startForegroundService", <String, dynamic>{
+      'holdWakeLock': holdWakeLock,
+      'icon': iconName,
+      'title': title,
+      'content': content,
+      'subtext': subtext
+    });
   }
 
   static Future<void> stopForegroundService() async {

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
+import android.widget.RemoteViews;
 
 import java.util.concurrent.ScheduledExecutorService;
 
@@ -28,7 +29,6 @@ public class FlutterForegroundPlugin implements MethodCallHandler {
     private long dartServiceMethodHandle = -1;
     private boolean serviceStarted = false;
     private Runnable runnable;
-    ScheduledExecutorService service;
     private Handler handler = new Handler(Looper.getMainLooper());
 
     private FlutterForegroundPlugin(Activity activity, BinaryMessenger messenger) {
@@ -50,7 +50,12 @@ public class FlutterForegroundPlugin implements MethodCallHandler {
         switch (call.method) {
             case "startForegroundService":
                 final Boolean holdWakeLock = call.argument("holdWakeLock");
-                launchForegroundService();
+                final String icon = call.argument("icon");
+                final String title = call.argument("title");
+                final String content = call.argument("content");
+                final String subtext = call.argument("subtext");
+
+                launchForegroundService(icon, title, content, subtext);
                 result.success("startForegroundService");
                 break;
             case "stopForegroundService":
@@ -84,12 +89,14 @@ public class FlutterForegroundPlugin implements MethodCallHandler {
         }
     }
 
-    private void launchForegroundService() {
+    private void launchForegroundService(String icon, String title, String content, String subtext) {
         Intent intent = new Intent(activity, FlutterForegroundService.class);
         intent.setAction(START_FOREGROUND_ACTION);
-        intent.putExtra("title", "TEST");
-        intent.putExtra("text", "TEST");
-        intent.putExtra("subText", "TEST");
+        intent.putExtra("icon", icon);
+        intent.putExtra("title", title);
+        intent.putExtra("content", content);
+        intent.putExtra("content", subtext);
+
         activity.startService(intent);
         serviceStarted = true;
         startServiceLoop();

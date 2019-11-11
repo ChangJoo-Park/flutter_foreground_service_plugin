@@ -1,5 +1,6 @@
 package changjoopark.com.flutter_foreground_plugin;
 
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -34,26 +35,24 @@ public class FlutterForegroundService extends Service {
 
                 Bundle bundle = intent.getExtras();
 
-                NotificationCompat.Builder builder;
-
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    String CHANNEL_ID = "flutter_foreground_service_channel";
-                    NotificationChannel channel = new NotificationChannel(CHANNEL_ID,
-                            "알람채널",
+                    NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID,
+                            "flutter_foreground_service_channel",
                             NotificationManager.IMPORTANCE_DEFAULT);
 
                     ((NotificationManager) getSystemService(NOTIFICATION_SERVICE))
                             .createNotificationChannel(channel);
+                }
+                NotificationCompat.Builder builder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
+                        .setSmallIcon(getNotificationIcon(bundle.getString("icon")))
+                        .setContentTitle(bundle.getString("title"))
+                        .setContentText(bundle.getString("content"))
+                        .setCategory(NotificationCompat.CATEGORY_SERVICE)
+                        .setContentIntent(pendingIntent)
+                        .setOngoing(true);
 
-                    builder = new NotificationCompat.Builder(this, CHANNEL_ID)
-                            .setContentTitle("CONTENT TITLE")
-                            .setContentText("컨텐트 텍스트")
-                            .setSubText("SUBTEXT ANDROID O");
-                } else {
-                    builder = new NotificationCompat.Builder(this)
-                            .setContentTitle("CONTENT TITLE")
-                            .setContentText("컨텐트 텍스트")
-                            .setSubText("SUBTEXT ANDROID NOT O");
+                if (bundle.getString("subtext") != null && bundle.getString("subtext").isEmpty()) {
+                    builder.setSubText(bundle.getString("subtext"));
                 }
 
                 startForeground(ONGOING_NOTIFICATION_ID, builder.build());
@@ -73,5 +72,13 @@ public class FlutterForegroundService extends Service {
     @Override
     public IBinder onBind(Intent intent) {
         return null;
+    }
+
+    private int getNotificationIcon(String iconName) {
+        int resourceId = getApplicationContext().getResources().getIdentifier(iconName, "drawable", getApplicationContext().getPackageName());
+        System.out.println("RESOURCE ID");
+        System.out.println(resourceId);
+        System.out.println("RESOURCE ID");
+        return resourceId;
     }
 }
