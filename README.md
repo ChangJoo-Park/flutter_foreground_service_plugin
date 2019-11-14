@@ -42,8 +42,15 @@ dependencies:
 <service android:name="changjoopark.com.flutter_foreground_plugin.FlutterForegroundService"/>
 ```
 
+4. Add use-sdk under `application`
 
-4. Add icon image for notification.
+```
+    <uses-sdk
+        android:minSdkVersion="23"
+        tools:overrideLibrary="changjoopark.com.flutter_foreground_plugin" />
+```
+
+5. Add icon image for notification.
 
 [Notification Icon Generator](https://romannurik.github.io/AndroidAssetStudio/icons-notification.html#source.type=clipart&source.clipart=ac_unit&source.space.trim=1&source.space.pad=0&name=ic_stat_ac_unit) will be helpful.
 
