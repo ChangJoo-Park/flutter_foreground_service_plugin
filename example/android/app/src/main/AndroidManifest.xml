@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="changjoopark.com.flutter_foreground_plugin_example">
+    package="changjoopark.com.flutter_foreground_plugin_example"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
 
@@ -34,4 +35,7 @@
 
         <service android:name="changjoopark.com.flutter_foreground_plugin.FlutterForegroundService"/>
     </application>
+    <uses-sdk
+        android:minSdkVersion="23"
+        tools:overrideLibrary="changjoopark.com.flutter_foreground_plugin" />
 </manifest>
