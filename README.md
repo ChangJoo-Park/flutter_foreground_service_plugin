@@ -22,10 +22,7 @@
 dependencies:
     ...
 
-      flutter_foreground_plugin:
-        git:
-          url: https://github.com/ChangJoo-Park/flutter_foreground_service_plugin
-
+  flutter_foreground_plugin: ^0.4.0
 ```
 
 
