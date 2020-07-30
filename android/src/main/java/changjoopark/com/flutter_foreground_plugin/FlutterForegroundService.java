@@ -52,7 +52,7 @@ public class FlutterForegroundService extends Service {
                         .setUsesChronometer(bundle.getBoolean("chronometer"))
                         .setOngoing(true);
 
-                if (bundle.getString("subtext") != null && bundle.getString("subtext").isEmpty()) {
+                if (bundle.getString("subtext") != null && !bundle.getString("subtext").isEmpty()) {
                     builder.setSubText(bundle.getString("subtext"));
                 }
 
