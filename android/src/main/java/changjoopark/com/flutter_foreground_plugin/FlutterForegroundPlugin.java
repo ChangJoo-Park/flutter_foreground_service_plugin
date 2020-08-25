@@ -51,12 +51,16 @@ public class FlutterForegroundPlugin implements MethodCallHandler {
             case "startForegroundService":
                 final Boolean holdWakeLock = call.argument("holdWakeLock");
                 final String icon = call.argument("icon");
+                final int color = ((Long)call.argument("color")).intValue();
                 final String title = call.argument("title");
                 final String content = call.argument("content");
                 final String subtext = call.argument("subtext");
                 final Boolean chronometer = call.argument("chronometer");
+                final Boolean stopAction = call.argument("stop_action");
+                final String stopIcon = call.argument("stop_icon");
+                final String stopText = call.argument("stop_text");
 
-                launchForegroundService(icon, title, content, subtext, chronometer);
+                launchForegroundService(icon, color, title, content, subtext, chronometer, stopAction, stopIcon, stopText);
                 result.success("startForegroundService");
                 break;
             case "stopForegroundService":
@@ -90,14 +94,20 @@ public class FlutterForegroundPlugin implements MethodCallHandler {
         }
     }
 
-    private void launchForegroundService(String icon, String title, String content, String subtext, Boolean chronometer) {
+    private void launchForegroundService(String icon, int color, String title, String content, String subtext,
+                                         Boolean chronometer, Boolean stopAction, String stopIcon,
+                                         String stopText) {
         Intent intent = new Intent(activity, FlutterForegroundService.class);
         intent.setAction(START_FOREGROUND_ACTION);
         intent.putExtra("icon", icon);
+        intent.putExtra("color", color);
         intent.putExtra("title", title);
         intent.putExtra("content", content);
         intent.putExtra("subtext", subtext);
         intent.putExtra("chronometer", chronometer);
+        intent.putExtra("stop_action", stopAction);
+        intent.putExtra("stop_icon", stopIcon);
+        intent.putExtra("stop_text", stopText);
 
         activity.startService(intent);
         serviceStarted = true;

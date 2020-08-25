@@ -21,10 +21,14 @@ class FlutterForegroundPlugin {
     Function onStarted,
     Function onStopped,
     @required String iconName,
+    int color = 0,
     @required String title,
     String content = "",
     String subtext = "",
     bool chronometer = false,
+    bool stopAction = false,
+    String stopIcon,
+    String stopText = 'Close',
   }) async {
     if (onStarted != null) {
       onStartedMethod = onStarted;
@@ -37,10 +41,14 @@ class FlutterForegroundPlugin {
     await _mainChannel.invokeMethod("startForegroundService", <String, dynamic>{
       'holdWakeLock': holdWakeLock,
       'icon': iconName,
+      'color': color,
       'title': title,
       'content': content,
       'subtext': subtext,
       'chronometer': chronometer,
+      'stop_action': stopAction,
+      'stop_icon': stopIcon,
+      'stop_text': stopText,
     });
   }
 
