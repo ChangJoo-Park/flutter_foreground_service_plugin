@@ -21,6 +21,7 @@ class FlutterForegroundPlugin {
     Function onStarted,
     Function onStopped,
     @required String iconName,
+    int color = 0,
     @required String title,
     String content = "",
     String subtext = "",
@@ -40,6 +41,7 @@ class FlutterForegroundPlugin {
     await _mainChannel.invokeMethod("startForegroundService", <String, dynamic>{
       'holdWakeLock': holdWakeLock,
       'icon': iconName,
+      'color': color,
       'title': title,
       'content': content,
       'subtext': subtext,
