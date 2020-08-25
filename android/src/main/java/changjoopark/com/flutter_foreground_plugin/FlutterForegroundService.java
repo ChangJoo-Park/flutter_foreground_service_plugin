@@ -17,6 +17,7 @@ import androidx.core.app.NotificationCompat;
 public class FlutterForegroundService extends Service {
     public static int ONGOING_NOTIFICATION_ID = 1;
     public static final String NOTIFICATION_CHANNEL_ID = "CHANNEL_ID";
+    public static final String ACTION_STOP_SERVICE = "STOP";
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -53,6 +54,17 @@ public class FlutterForegroundService extends Service {
                         .setUsesChronometer(bundle.getBoolean("chronometer"))
                         .setOngoing(true);
 
+                if (bundle.getBoolean("stop_action")) {
+                    Intent stopSelf = new Intent(this, FlutterForegroundService.class);
+                    stopSelf.setAction(ACTION_STOP_SERVICE);
+
+                    PendingIntent pStopSelf = PendingIntent
+                            .getService(this, 0, stopSelf ,PendingIntent.FLAG_CANCEL_CURRENT);
+                    builder.addAction(getNotificationIcon(bundle.getString("stop_icon")),
+                            bundle.getString("stop_text"),
+                            pStopSelf);
+                }
+
                 if (bundle.getString("subtext") != null && bundle.getString("subtext").isEmpty()) {
                     builder.setSubText(bundle.getString("subtext"));
                 }
@@ -61,6 +73,9 @@ public class FlutterForegroundService extends Service {
                 break;
             case FlutterForegroundPlugin.STOP_FOREGROUND_ACTION:
                 stopForeground(Service.STOP_FOREGROUND_DETACH);
+                break;
+            case ACTION_STOP_SERVICE:
+                stopSelf();
                 break;
             default:
                 break;

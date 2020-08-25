@@ -26,6 +26,9 @@ class FlutterForegroundPlugin {
     String content = "",
     String subtext = "",
     bool chronometer = false,
+    bool stopAction = false,
+    String stopIcon,
+    String stopText = 'Close',
   }) async {
     if (onStarted != null) {
       onStartedMethod = onStarted;
@@ -43,6 +46,9 @@ class FlutterForegroundPlugin {
       'content': content,
       'subtext': subtext,
       'chronometer': chronometer,
+      'stop_action': stopAction,
+      'stop_icon': stopIcon,
+      'stop_text': stopText,
     });
   }
 
