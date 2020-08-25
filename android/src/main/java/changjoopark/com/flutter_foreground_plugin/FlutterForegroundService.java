@@ -65,7 +65,7 @@ public class FlutterForegroundService extends Service {
                             pStopSelf);
                 }
 
-                if (bundle.getString("subtext") != null && bundle.getString("subtext").isEmpty()) {
+                if (bundle.getString("subtext") != null && !bundle.getString("subtext").isEmpty()) {
                     builder.setSubText(bundle.getString("subtext"));
                 }
 
