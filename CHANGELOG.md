@@ -1,3 +1,8 @@
+## 0.5.0
+
+* [Add close button](https://github.com/ChangJoo-Park/flutter_foreground_service_plugin/pull/14)
+* [Add color option](https://github.com/ChangJoo-Park/flutter_foreground_service_plugin/pull/12)
+
 ## 0.4.0
 
 * Set Min SDK version from 23
