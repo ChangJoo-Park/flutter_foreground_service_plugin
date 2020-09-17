@@ -1,6 +1,5 @@
 package changjoopark.com.flutter_foreground_plugin;
 
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -61,7 +60,7 @@ public class FlutterForegroundService extends Service {
                     stopSelf.setAction(ACTION_STOP_SERVICE);
 
                     PendingIntent pStopSelf = PendingIntent
-                            .getService(this, 0, stopSelf ,PendingIntent.FLAG_CANCEL_CURRENT);
+                            .getService(this, 0, stopSelf, PendingIntent.FLAG_CANCEL_CURRENT);
                     builder.addAction(getNotificationIcon(bundle.getString("stop_icon")),
                             bundle.getString("stop_text"),
                             pStopSelf);
