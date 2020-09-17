@@ -19,6 +19,8 @@ public class FlutterForegroundService extends Service {
     public static final String NOTIFICATION_CHANNEL_ID = "CHANNEL_ID";
     public static final String ACTION_STOP_SERVICE = "STOP";
 
+    private boolean userStopForegroundService = false;
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (intent.getAction() == null) {
@@ -72,16 +74,26 @@ public class FlutterForegroundService extends Service {
                 startForeground(ONGOING_NOTIFICATION_ID, builder.build());
                 break;
             case FlutterForegroundPlugin.STOP_FOREGROUND_ACTION:
-                stopForeground(Service.STOP_FOREGROUND_DETACH);
+                stopFlutterForegroundService();
                 break;
             case ACTION_STOP_SERVICE:
-                stopSelf();
+                stopFlutterForegroundService();
                 break;
             default:
                 break;
         }
 
         return START_STICKY;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        android.util.Log.d("FlutterForegroundService", "onDestroy");
+        if (!userStopForegroundService) {
+            android.util.Log.d("FlutterForegroundService", "User close app, kill current process to avoid memory leak in other plugin.");
+            android.os.Process.killProcess(android.os.Process.myPid());
+        }
     }
 
 
@@ -93,5 +105,11 @@ public class FlutterForegroundService extends Service {
     private int getNotificationIcon(String iconName) {
         int resourceId = getApplicationContext().getResources().getIdentifier(iconName, "drawable", getApplicationContext().getPackageName());
         return resourceId;
+    }
+
+    private void stopFlutterForegroundService() {
+        userStopForegroundService = true;
+        stopForeground(true);
+        stopSelf();
     }
 }
