@@ -29,19 +29,19 @@ class _MyAppState extends State<MyApp> {
         body: Center(
           child: Column(
             children: <Widget>[
-              RaisedButton(
+              ElevatedButton(
                 child: Text("START"),
                 onPressed: () {
                   startForegroundService();
                 },
               ),
-              RaisedButton(
+              ElevatedButton(
                 child: Text("STOP"),
                 onPressed: () async {
                   await FlutterForegroundPlugin.stopForegroundService();
                 },
               ),
-              RaisedButton(
+              ElevatedButton(
                 child: Text("Force Crash"),
                 onPressed: () {
                   exit(1);
