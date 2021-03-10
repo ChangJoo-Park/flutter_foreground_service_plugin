@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
-import 'dart:async';
+import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_foreground_plugin/flutter_foreground_plugin.dart';
 
 void main() => runApp(MyApp());
@@ -41,6 +41,12 @@ class _MyAppState extends State<MyApp> {
                   await FlutterForegroundPlugin.stopForegroundService();
                 },
               ),
+              RaisedButton(
+                child: Text("Force Crash"),
+                onPressed: () {
+                  exit(1);
+                },
+              )
             ],
           ),
         ),

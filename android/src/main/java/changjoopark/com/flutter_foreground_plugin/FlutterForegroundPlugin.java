@@ -6,9 +6,6 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
-import android.widget.RemoteViews;
-
-import java.util.concurrent.ScheduledExecutorService;
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.plugin.common.BinaryMessenger;
@@ -76,12 +73,16 @@ public class FlutterForegroundPlugin implements FlutterPlugin, MethodCallHandler
             case "startForegroundService":
                 final Boolean holdWakeLock = call.argument("holdWakeLock");
                 final String icon = call.argument("icon");
+                final int color = call.argument("color");
                 final String title = call.argument("title");
                 final String content = call.argument("content");
                 final String subtext = call.argument("subtext");
                 final Boolean chronometer = call.argument("chronometer");
+                final Boolean stopAction = call.argument("stop_action");
+                final String stopIcon = call.argument("stop_icon");
+                final String stopText = call.argument("stop_text");
 
-                launchForegroundService(icon, title, content, subtext, chronometer);
+                launchForegroundService(icon, color, title, content, subtext, chronometer, stopAction, stopIcon, stopText);
                 result.success("startForegroundService");
                 break;
             case "stopForegroundService":
@@ -115,14 +116,20 @@ public class FlutterForegroundPlugin implements FlutterPlugin, MethodCallHandler
         }
     }
 
-    private void launchForegroundService(String icon, String title, String content, String subtext, Boolean chronometer) {
-        Intent intent = new Intent(this.context, FlutterForegroundService.class);
+    private void launchForegroundService(String icon, int color, String title, String content, String subtext,
+                                         Boolean chronometer, Boolean stopAction, String stopIcon,
+                                         String stopText) {
+        Intent intent = new Intent(activity, FlutterForegroundService.class);
         intent.setAction(START_FOREGROUND_ACTION);
         intent.putExtra("icon", icon);
+        intent.putExtra("color", color);
         intent.putExtra("title", title);
         intent.putExtra("content", content);
         intent.putExtra("subtext", subtext);
         intent.putExtra("chronometer", chronometer);
+        intent.putExtra("stop_action", stopAction);
+        intent.putExtra("stop_icon", stopIcon);
+        intent.putExtra("stop_text", stopText);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             context.startForegroundService(intent);
@@ -151,8 +158,7 @@ public class FlutterForegroundPlugin implements FlutterPlugin, MethodCallHandler
 
         Intent intent = new Intent(context, FlutterForegroundService.class);
         intent.setAction(STOP_FOREGROUND_ACTION);
-        context.stopService(intent);
-
+        activity.startService(intent);
         callbackChannel.invokeMethod("onStopped", null);
     }
 
