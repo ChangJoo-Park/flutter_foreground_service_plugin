@@ -4,9 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
-import android.widget.RemoteViews;
-
-import java.util.concurrent.ScheduledExecutorService;
 
 import io.flutter.plugin.common.BinaryMessenger;
 import io.flutter.plugin.common.MethodCall;
@@ -47,27 +44,27 @@ public class FlutterForegroundPlugin implements MethodCallHandler {
 
     @Override
     public void onMethodCall(MethodCall call, Result result) {
-                switch (call.method) {
-                    case "startForegroundService":
-                        final Boolean holdWakeLock = call.argument("holdWakeLock");
-                        final String icon = call.argument("icon");
-                        final int color = call.argument("color");
-                        final String title = call.argument("title");
-                        final String content = call.argument("content");
-                        final String subtext = call.argument("subtext");
-                        final Boolean chronometer = call.argument("chronometer");
-                        final Boolean stopAction = call.argument("stop_action");
-                        final String stopIcon = call.argument("stop_icon");
-                        final String stopText = call.argument("stop_text");
+        switch (call.method) {
+            case "startForegroundService":
+                final Boolean holdWakeLock = call.argument("holdWakeLock");
+                final String icon = call.argument("icon");
+                final int color = call.argument("color");
+                final String title = call.argument("title");
+                final String content = call.argument("content");
+                final String subtext = call.argument("subtext");
+                final Boolean chronometer = call.argument("chronometer");
+                final Boolean stopAction = call.argument("stop_action");
+                final String stopIcon = call.argument("stop_icon");
+                final String stopText = call.argument("stop_text");
 
-                        launchForegroundService(icon, color, title, content, subtext, chronometer, stopAction, stopIcon, stopText);
-                        result.success("startForegroundService");
-                        break;
-                    case "stopForegroundService":
-                        stopForegroundService();
-                        result.success("stopForegroundService");
-                        break;
-                    case "setServiceMethodInterval":
+                launchForegroundService(icon, color, title, content, subtext, chronometer, stopAction, stopIcon, stopText);
+                result.success("startForegroundService");
+                break;
+            case "stopForegroundService":
+                stopForegroundService();
+                result.success("stopForegroundService");
+                break;
+            case "setServiceMethodInterval":
                 if (call.argument("seconds") == null) {
                     result.notImplemented();
                     break;
