@@ -119,7 +119,7 @@ public class FlutterForegroundPlugin implements FlutterPlugin, MethodCallHandler
     private void launchForegroundService(String icon, int color, String title, String content, String subtext,
                                          Boolean chronometer, Boolean stopAction, String stopIcon,
                                          String stopText) {
-        Intent intent = new Intent(activity, FlutterForegroundService.class);
+        Intent intent = new Intent(context, FlutterForegroundService.class);
         intent.setAction(START_FOREGROUND_ACTION);
         intent.putExtra("icon", icon);
         intent.putExtra("color", color);
@@ -158,7 +158,7 @@ public class FlutterForegroundPlugin implements FlutterPlugin, MethodCallHandler
 
         Intent intent = new Intent(context, FlutterForegroundService.class);
         intent.setAction(STOP_FOREGROUND_ACTION);
-        activity.startService(intent);
+        context.startService(intent);
         callbackChannel.invokeMethod("onStopped", null);
     }
 
