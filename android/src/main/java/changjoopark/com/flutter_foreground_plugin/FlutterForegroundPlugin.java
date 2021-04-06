@@ -2,72 +2,94 @@ package changjoopark.com.flutter_foreground_plugin;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.Context;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
-import android.widget.RemoteViews;
 
-import java.util.concurrent.ScheduledExecutorService;
-
+import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.plugin.common.BinaryMessenger;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
 import io.flutter.plugin.common.PluginRegistry.Registrar;
+import io.flutter.embedding.engine.plugins.activity.ActivityAware;
+import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding;
 
 /**
  * FlutterForegroundPlugin
  */
-public class FlutterForegroundPlugin implements MethodCallHandler {
+public class FlutterForegroundPlugin implements FlutterPlugin, MethodCallHandler {
     public final static String START_FOREGROUND_ACTION = "com.changjoopark.flutter_foreground_plugin.action.startforeground";
     public final static String STOP_FOREGROUND_ACTION = "com.changjoopark.flutter_foreground_plugin.action.stopforeground";
 
-    private final Activity activity;
+    private static FlutterForegroundPlugin instance;
+
+    private Context context;
     private MethodChannel callbackChannel;
-    private final BinaryMessenger messenger;
+    private BinaryMessenger messenger;
     private int methodInterval = -1;
     private long dartServiceMethodHandle = -1;
     private boolean serviceStarted = false;
     private Runnable runnable;
     private Handler handler = new Handler(Looper.getMainLooper());
 
-    private FlutterForegroundPlugin(Activity activity, BinaryMessenger messenger) {
-        this.activity = activity;
+    private FlutterForegroundPlugin() {}
+
+    @Override
+    public void onAttachedToEngine(FlutterPluginBinding binding) {
+        System.out.println("onAttachedToEnginem (flutter binding) called!!");
+        onAttachedToEngine(binding.getApplicationContext(), binding.getBinaryMessenger());
+    }
+
+    public void onAttachedToEngine(Context applicationContext, BinaryMessenger messenger) {
+        System.out.println("onAttachedToEngine called!!");
         this.messenger = messenger;
+        this.context = applicationContext;
+        final MethodChannel channel = new MethodChannel(this.messenger, "com.changjoopark.flutter_foreground_plugin/main");
+        channel.setMethodCallHandler(this);
         callbackChannel = new MethodChannel(messenger, "com.changjoopark.flutter_foreground_plugin/callback");
+    }
+
+    @Override
+    public void onDetachedFromEngine(FlutterPluginBinding binding) {
+        System.out.println("onDetachedFromEngine called!!");
     }
 
     /**
      * Plugin registration.
      */
     public static void registerWith(Registrar registrar) {
-        final MethodChannel channel = new MethodChannel(registrar.messenger(), "com.changjoopark.flutter_foreground_plugin/main");
-        channel.setMethodCallHandler(new FlutterForegroundPlugin(registrar.activity(), registrar.messenger()));
+        if (instance == null) {
+            instance = new FlutterForegroundPlugin();
+        }
+        instance.onAttachedToEngine(registrar.context(), registrar.messenger());
     }
 
     @Override
     public void onMethodCall(MethodCall call, Result result) {
-                switch (call.method) {
-                    case "startForegroundService":
-                        final Boolean holdWakeLock = call.argument("holdWakeLock");
-                        final String icon = call.argument("icon");
-                        final int color = call.argument("color");
-                        final String title = call.argument("title");
-                        final String content = call.argument("content");
-                        final String subtext = call.argument("subtext");
-                        final Boolean chronometer = call.argument("chronometer");
-                        final Boolean stopAction = call.argument("stop_action");
-                        final String stopIcon = call.argument("stop_icon");
-                        final String stopText = call.argument("stop_text");
+        switch (call.method) {
+            case "startForegroundService":
+                final Boolean holdWakeLock = call.argument("holdWakeLock");
+                final String icon = call.argument("icon");
+                final int color = call.argument("color");
+                final String title = call.argument("title");
+                final String content = call.argument("content");
+                final String subtext = call.argument("subtext");
+                final Boolean chronometer = call.argument("chronometer");
+                final Boolean stopAction = call.argument("stop_action");
+                final String stopIcon = call.argument("stop_icon");
+                final String stopText = call.argument("stop_text");
 
-                        launchForegroundService(icon, color, title, content, subtext, chronometer, stopAction, stopIcon, stopText);
-                        result.success("startForegroundService");
-                        break;
-                    case "stopForegroundService":
-                        stopForegroundService();
-                        result.success("stopForegroundService");
-                        break;
-                    case "setServiceMethodInterval":
+                launchForegroundService(icon, color, title, content, subtext, chronometer, stopAction, stopIcon, stopText);
+                result.success("startForegroundService");
+                break;
+            case "stopForegroundService":
+                stopForegroundService();
+                result.success("stopForegroundService");
+                break;
+            case "setServiceMethodInterval":
                 if (call.argument("seconds") == null) {
                     result.notImplemented();
                     break;
@@ -97,7 +119,7 @@ public class FlutterForegroundPlugin implements MethodCallHandler {
     private void launchForegroundService(String icon, int color, String title, String content, String subtext,
                                          Boolean chronometer, Boolean stopAction, String stopIcon,
                                          String stopText) {
-        Intent intent = new Intent(activity, FlutterForegroundService.class);
+        Intent intent = new Intent(context, FlutterForegroundService.class);
         intent.setAction(START_FOREGROUND_ACTION);
         intent.putExtra("icon", icon);
         intent.putExtra("color", color);
@@ -109,7 +131,12 @@ public class FlutterForegroundPlugin implements MethodCallHandler {
         intent.putExtra("stop_icon", stopIcon);
         intent.putExtra("stop_text", stopText);
 
-        activity.startService(intent);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            context.startForegroundService(intent);
+        } else {
+            context.startService(intent);
+        }
+
         serviceStarted = true;
         startServiceLoop();
 
@@ -129,10 +156,9 @@ public class FlutterForegroundPlugin implements MethodCallHandler {
         dartServiceMethodHandle = -1;
         methodInterval = -1;
 
-        Intent intent = new Intent(activity, FlutterForegroundService.class);
+        Intent intent = new Intent(context, FlutterForegroundService.class);
         intent.setAction(STOP_FOREGROUND_ACTION);
-        activity.startService(intent);
-
+        context.startService(intent);
         callbackChannel.invokeMethod("onStopped", null);
     }
 
