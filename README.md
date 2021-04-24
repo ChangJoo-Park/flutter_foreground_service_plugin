@@ -25,21 +25,26 @@ dependencies:
   flutter_foreground_plugin: ^0.4.0
 ```
 
+2. Add `xmlns:tools` under `<manifest xmlns:android="http://schemas.android.com/apk/res/android"`
+```xml
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+```
 
-2. Add permission for ForegroundService to AndroidManifest.xml
+3. Add permission for ForegroundService to AndroidManifest.xml
 
 ```xml
 <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
 ```
 
 
-3. Add service for ForegroundService to AndroidManifest.xml below `</activity>`
+4. Add service for ForegroundService to AndroidManifest.xml below `</activity>`
 
 ```xml
 <service android:name="changjoopark.com.flutter_foreground_plugin.FlutterForegroundService"/>
 ```
 
-4. Add use-sdk under `application`
+5. Add use-sdk under `application`
 
 ```
     <uses-sdk
@@ -47,13 +52,13 @@ dependencies:
         tools:overrideLibrary="changjoopark.com.flutter_foreground_plugin" />
 ```
 
-5. Add icon image for notification.
+6. Add icon image for notification.
 
 [Notification Icon Generator](https://romannurik.github.io/AndroidAssetStudio/icons-notification.html#source.type=clipart&source.clipart=ac_unit&source.space.trim=1&source.space.pad=0&name=ic_stat_ac_unit) will be helpful.
 
 path: `android/app/src/main/res/drawable-*`
 
-5. Write code for foreground service
+7. Write code for foreground service
 
 ```dart
 void main() {
