@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:ui';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 
 class FlutterForegroundPlugin {
@@ -11,23 +10,23 @@ class FlutterForegroundPlugin {
   static const MethodChannel _callbackChannel = const MethodChannel(
       'com.changjoopark.flutter_foreground_plugin/callback');
 
-  static Function onStartedMethod;
-  static Function onStoppedMethod;
+  static Function? onStartedMethod;
+  static Function? onStoppedMethod;
 
   /// [startForegroundService]
   ///
   static Future<void> startForegroundService({
     bool holdWakeLock = false,
-    Function onStarted,
-    Function onStopped,
-    @required String iconName,
+    Function? onStarted,
+    Function? onStopped,
+    required String iconName,
     int color = 0,
-    @required String title,
+    required String title,
     String content = "",
     String subtext = "",
     bool chronometer = false,
     bool stopAction = false,
-    String stopIcon,
+    String? stopIcon,
     String stopText = 'Close',
     String channelId = 'flutter_foreground_notification_channel',
   }) async {
@@ -60,7 +59,7 @@ class FlutterForegroundPlugin {
 
   static Future<void> setServiceMethod(Function serviceMethod) async {
     final serviceMethodHandle =
-        PluginUtilities.getCallbackHandle(serviceMethod).toRawHandle();
+        PluginUtilities.getCallbackHandle(serviceMethod)!.toRawHandle();
 
     _callbackChannel.setMethodCallHandler(_onForegroundServiceCallback);
 
@@ -79,20 +78,18 @@ class FlutterForegroundPlugin {
     switch (call.method) {
       case "onStarted":
         if (onStartedMethod != null) {
-          onStartedMethod();
+          onStartedMethod!();
         }
         break;
       case "onStopped":
         if (onStoppedMethod != null) {
-          onStoppedMethod();
+          onStoppedMethod!();
         }
         break;
       case "onServiceMethodCallback":
         final CallbackHandle handle =
             CallbackHandle.fromRawHandle(call.arguments);
-        if (handle != null) {
-          PluginUtilities.getCallbackFromHandle(handle)();
-        }
+        PluginUtilities.getCallbackFromHandle(handle)!();
         break;
       default:
         break;
