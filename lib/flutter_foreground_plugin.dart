@@ -29,6 +29,7 @@ class FlutterForegroundPlugin {
     bool stopAction = false,
     String stopIcon,
     String stopText = 'Close',
+    String channelId = 'flutter_foreground_notification_channel',
   }) async {
     if (onStarted != null) {
       onStartedMethod = onStarted;
@@ -49,6 +50,7 @@ class FlutterForegroundPlugin {
       'stop_action': stopAction,
       'stop_icon': stopIcon,
       'stop_text': stopText,
+      'channel_id': channelId,
     });
   }
 
