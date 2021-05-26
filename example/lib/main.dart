@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_foreground_plugin/flutter_foreground_plugin.dart';
 
@@ -69,6 +68,7 @@ void startForegroundService() async {
     title: "Flutter Foreground Service",
     content: "This is Content",
     iconName: "ic_stat_hot_tub",
+    channelId: "MY_CHANNEL_ID",
   );
 }
 
