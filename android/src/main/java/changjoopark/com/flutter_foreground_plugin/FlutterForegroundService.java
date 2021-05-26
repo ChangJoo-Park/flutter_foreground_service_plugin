@@ -23,7 +23,7 @@ public class FlutterForegroundService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if (intent.getAction() == null) {
+        if (intent == null || intent.getAction() == null) {
             return START_STICKY;
         }
 
@@ -61,7 +61,7 @@ public class FlutterForegroundService extends Service {
                     stopSelf.setAction(ACTION_STOP_SERVICE);
 
                     PendingIntent pStopSelf = PendingIntent
-                            .getService(this, 0, stopSelf ,PendingIntent.FLAG_CANCEL_CURRENT);
+                            .getService(this, 0, stopSelf, PendingIntent.FLAG_CANCEL_CURRENT);
                     builder.addAction(getNotificationIcon(bundle.getString("stop_icon")),
                             bundle.getString("stop_text"),
                             pStopSelf);
