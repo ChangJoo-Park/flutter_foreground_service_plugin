@@ -39,8 +39,15 @@ public class FlutterForegroundService extends Service {
             case FlutterForegroundPlugin.START_FOREGROUND_ACTION:
                 PackageManager pm = getApplicationContext().getPackageManager();
                 Intent notificationIntent = pm.getLaunchIntentForPackage(getApplicationContext().getPackageName());
-                PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
-                        notificationIntent, 0);
+                PendingIntent pendingIntent;
+
+                if (Build.VERSION.SDK_INT>= Build.VERSION_CODES.S){
+                    pendingIntent = PendingIntent.getActivity(this, 0,
+                            notificationIntent, PendingIntent.FLAG_MUTABLE);
+                }else {
+                    pendingIntent = PendingIntent.getActivity(this, 0,
+                            notificationIntent, 0);
+                }
 
                 Bundle bundle = intent.getExtras();
 
