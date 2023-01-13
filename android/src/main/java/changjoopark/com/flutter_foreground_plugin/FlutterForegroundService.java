@@ -13,7 +13,6 @@ import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 
-
 public class FlutterForegroundService extends Service {
     private static String TAG = "FlutterForegroundService";
     public static int ONGOING_NOTIFICATION_ID = 1;
@@ -39,8 +38,13 @@ public class FlutterForegroundService extends Service {
             case FlutterForegroundPlugin.START_FOREGROUND_ACTION:
                 PackageManager pm = getApplicationContext().getPackageManager();
                 Intent notificationIntent = pm.getLaunchIntentForPackage(getApplicationContext().getPackageName());
-                PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
-                        notificationIntent, 0);
+
+                PendingIntent pendingIntent = null;
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+                    pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_MUTABLE);
+                } else {
+                    pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_ONE_SHOT);
+                }
 
                 Bundle bundle = intent.getExtras();
 
@@ -102,14 +106,14 @@ public class FlutterForegroundService extends Service {
         }
     }
 
-
     @Override
     public IBinder onBind(Intent intent) {
         return null;
     }
 
     private int getNotificationIcon(String iconName) {
-        int resourceId = getApplicationContext().getResources().getIdentifier(iconName, "drawable", getApplicationContext().getPackageName());
+        int resourceId = getApplicationContext().getResources().getIdentifier(iconName, "drawable",
+                getApplicationContext().getPackageName());
         return resourceId;
     }
 
